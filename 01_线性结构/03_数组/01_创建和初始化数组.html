@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 创建和初始化数组
+    var d1 = new Array();
+    var d2 = new Array(7);//一个数字表数组的长度
+    var d3 = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday',
+      'Thursday', 'Friday', 'Saturday');//创建数组并进行复制
+    // 直接复制数组内容
+    var day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+      'Thursday', 'Friday', 'Saturday'];
+    // 获取数组的长度
+    console.log(day.length);
+
+    // 通过for遍历数组
+    for (var i = 0; i < day.length; i++) {
+      console.log(day[i]);
+    }
+    console.log('---')
+    // 通过foreach循环数组
+    day.forEach((index, value) => {
+      console.log(index);
+      console.log(value);
+    });
+    // 求斐波那契数列
+    var fibonacci = [];
+    fibonacci[0] = 1;
+    fibonacci[1] = 1;
+    for (var i = 2; i < 20; i++) {
+      fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
+    }
+    console.log(fibonacci); 
+
+  </script>
+
+</body>
+
+</html>

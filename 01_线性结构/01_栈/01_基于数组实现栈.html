@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 封装栈
+    function Stack() {
+      this.items = [];
+      // 封装方法
+      /*
+      这里有两种方法实现,
+      - 通过普通函数
+      - 通过对象原型(建议使用这种)
+      */
+      // 压栈
+      Stack.prototype.push = function (element) {
+        this.items.push(element);//不需要有返回值
+      }
+      // 从栈中取出元素
+      Stack.prototype.pop = function () {
+        return this.items.pop();
+      }
+      // 取出栈中的最后一个元素
+      Stack.prototype.peek = function () {
+        return this.items[this.items.length - 1];
+      }
+      // 判断栈是否为空
+      Stack.prototype.isEmpty = function () {
+
+        return this.items.length == 0;
+      }
+      // 获取栈中元素的个数
+      Stack.prototype.size = function () {
+        return this.items.length;
+      }
+      // toString()方法
+      Stack.prototype.toString = function () {
+        var str = '';
+        for (var i = 0; i < this.items.length; i++) {
+          str += this.items[i] + ' ';
+        }
+        return str;
+      }
+    }
+
+    // 1.应用:十进制转化为二进制
+    function dec2bin(num) {
+      var stack = new Stack();
+      // 通过循环计算压栈
+      while (num > 0) {
+        // 压栈
+        stack.push(num % 2);
+        // 计算结果
+        num = Math.floor(num / 2);
+      }
+      // 打印输出的值
+      var str = '';
+      while (!stack.isEmpty()) {
+        str += stack.pop();
+      }
+      return str;
+
+    }
+
+    console.log(dec2bin(43));
+    console.log(dec2bin(23));
+    console.log(dec2bin(63));
+
+
+
+
+// 测试
+    // var s = new Stack();
+    // s.push(20);
+    // s.push(3);
+    // s.push(4);
+    // s.push(20);
+    // s.push(3);
+    // s.push(4);
+    // s.push(20);
+    // s.push(3);
+    // s.push(4);
+    // console.log(s.toString());
+    // s.pop();
+    // console.log(s.toString());
+    // s.pop();
+    // console.log(s.toString());
+    // var a = s.peek();
+    // console.log(a);
+    // console.log(s.isEmpty());
+    // console.log(s.size());
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 封装链表
+    function LinkList() {
+      // 封装节点类
+      function Node(data) {
+        this.data = data;
+        this.next = null;//节点引用
+      };
+      //封装属性
+      this.head = null;
+      this.length = 0;
+      //封装方法
+      // 1.append()方法:在末尾追加元素
+      LinkList.prototype.append = function (element) {
+        // (1).创建元素
+        var node = new Node(element);
+        // (2)判断链表
+        if (this.head === null) {
+          // 链表为空
+          this.head = node;
+        } else {
+          // 链表不为空
+          // 查找链表节点中next为空的节点并插入
+          var current = this.head;
+          while (current.next) {
+            // 移动指针查找
+            current = current.next;
+          }
+          // 插入节点
+          current.next = node;
+        }
+        // (3)修改length
+        this.length++;
+      }
+      // 2.toString()实现
+      LinkList.prototype.toString = function () {
+        // 定义变量保存当前指针位置和字符串的输出
+        var current = this.head;
+        var listString = '';
+        while (current) {
+          listString += current.data + ' ';
+          current = current.next;
+        }
+        // 返回最终的的结果
+        return listString;
+      }
+      // 3.insert(position,data),插入的位置和插入的元素,position指的是下标值
+      LinkList.prototype.insert = function (position, data) {
+        // (1)越界问题
+        if (position < 0 || position > this.length) {
+          return false;
+        }
+        // (2).定义变量保存信息
+        var newNode = new Node(data);
+        var current = this.head;
+        // 保存待插入位置的前一个node
+        var previous = null;
+        var index = 0;//判断指针移动所在位置的索引号
+        if (position == 0) {//第一个位置插入
+          newNode.next = current;
+          this.head = newNode;
+        } else {
+          while (index++ < position) {
+            previous = current;//始终指向前一个位置
+            current = current.next;//指向下一个位置
+          }
+          // (3)找到待插入的位置后插入元素,先链接next
+          newNode.next = current;
+          previous.next = newNode;
+          console.log(this);
+        }
+        // (4)length
+        this.length++;
+
+        return true;//必须添加返回值
+      }
+      // 4. get(position)获取指定位置的元素
+      LinkList.prototype.get = function (position) {
+        // (1)判断数组越界
+        if (position > this.length || position < 0) {
+          return null;
+        }
+        // (2)移动指针获取指定位置的元素
+        var current = this.head;
+        var index = 0;
+        while (index < position) {
+          // alert(current.data)
+          current = current.next;
+          index++;
+        }
+        return current.data;
+      }
+      // 5.indexOf(data)返回元素的索引值\
+      LinkList.prototype.indexOf = function (data) {
+        // (1)需要两个变量进行信息存储
+        var index = 0;
+        var current = this.head;
+        // (2)查找元素所在的位置
+        while (current) {
+          if (current.data === data) {
+            // 返回index
+            return index;
+          }
+          index++;
+          current = current.next;
+        }
+        // 没有找到则返回-1
+        return -1;
+      }
+      // 6.update(position,data)修改指定位置的内容
+      LinkList.prototype.update = function (position, data) {
+        // (1)越界判断
+        if (position > this.length || position < 0) {
+          return false;
+        }
+        var index = 0;
+        var current = this.head;
+        while (index++ < position) {
+          current = current.next;
+        }
+        //修改指定位置的值
+        current.data = data;
+        return true;
+      }
+      // 7.removeAt(position)//删除指定位置的内容
+      LinkList.prototype.removeAt = function (position) {
+        // 位置涉及越界
+        if (position > this.length || position < 0) {
+          return null;
+        }
+        //需要两个变量来存储
+        var index = 0;
+        var current = this.head;
+        var previous = null;
+
+        // 判断是否移除第一项
+        if (position == 0) {
+          // 直接将指针移动到下下个位置
+          this.head = current.next;
+        } else {
+          while (index++ < position) {
+            previous = current;
+            current = current.next;
+          }
+          // 找到位置删除元素
+          previous.next = current.next;
+        }
+        // 修改length
+        this.length--;
+        // 返回删除的元素
+        return current.data;
+      }
+      // 8.remove(data)删除指定元素
+      LinkList.prototype.remove = function (data) {
+        // 获取元素的位置
+        var index = this.indexOf(data);
+        // 删除指定元素
+        return this.removeAt(index);
+      }
+      // 9.isEmpty()
+      LinkList.prototype.isEmpty = function () {
+        return this.length == 0;
+      }
+      // 10.size()
+      LinkList.prototype.size = function () {
+        return this.length;
+      }
+
+    }
+
+    // 测试代码
+    var link = new LinkList();
+    link.append('hello');
+    link.append('world');
+    link.append('say');
+    console.log(link.toString())
+    link.insert(2, 'aaa');
+    link.insert(2, 'ccc');
+    link.insert(2, 'bbb');
+    link.insert(5, 'bbb');
+    console.log(link.toString())
+    console.log(link.get(3));
+    console.log(link.get(5));
+    console.log(link.get(2));
+    console.log(link.indexOf('hello'));
+
+    link.update(3, 'xxx');
+    console.log(link.toString());
+    console.log(link.removeAt(3));
+
+    link.remove('bbb');
+    link.remove('ccc');
+    console.log(link.toString())
+
+    console.log(link.isEmpty())
+    console.log(link.size())
+
+
+  </script>
+</body>
+
+</html>

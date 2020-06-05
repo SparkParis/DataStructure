@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 字典的创建和使用
+    var dic = { a: 3, c: 2, b: 1 };
+    // 输出最初的字典元素
+    console.log('输出最初的字典元素');
+    for (var key in dic) {
+      console.log("key:" + key + ",value:" + dic[key]);
+    }
+    //输出按照keys排序后的字典元素
+    console.log('输出按照keys排序后的字典元素');
+    var res = Object.keys(dic).sort()
+    for (var key in res) {
+      console.log("key:" + res[key] + ",value:" + dic[res[key]]);
+    }
+    // 输出按照value值进行排序的结果
+    console.log('输出按照value值进行排序的结果');
+    var res2 = Object.keys(dic).sort(function (a, b) {
+      return dic[a] - dic[b];
+    })
+    for (var key in res2) {
+      console.log("key:" + res2[key] + ",value:" + dic[res2[key]]);
+    }
+
+    // 简单的字典操作
+    var dict = new Array();//定义一个字典
+    // 字典中添加键值对
+    dic['one'] = '1';
+    dic['two'] = '2';
+    dic['8'] = '5';
+    dic['four'] = '4';
+    dic['six'] = 'eight';
+    dic['7'] = 'eight';
+    dic['6'] = 'eight';
+    // 输出
+    for (var key in dic) {
+      // 键值对中放入键如果是数组会按照顺序进行输出
+      console.log(key + ':' + dic[key]);
+    }
+    // 删除元素
+    delete dic['one'];
+    delete dic['six'];
+    console.log('---删除元素---')
+    for (var key in dic) {
+      console.log(key + ':' + dic[key]);
+    }
+    // delete dic.7;报错
+    delete dic.six;
+    for (var key in dic) {
+      console.log(key + ':' + dic[key]);
+    }
+
+  </script>
+</body>
+
+</html>

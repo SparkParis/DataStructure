@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    /*
+    1.末尾添加元素的三种方式
+    - 通过数组下标
+    - 通过方法push(参数1,参数2,...)
+    */
+    numbers[numbers.length - 1] = 10;
+    numbers.push(11, 12);
+    console.log(numbers)
+    /*
+    2.首位插入元素
+    - 移动数组的后面的元素,在首位添加元素
+    - 通过unshift(参数1,参数2)方法(参数里面是按照顺序插入的)
+    */
+    for (var i = numbers.length; i > 0; i--) {
+      numbers[i] = numbers[i - 1];
+    }
+    numbers[0] = 100;
+    numbers.unshift(-1);
+    numbers.unshift(-2, -3);//插入以后按照顺序排放,-2,-3,
+    console.log(numbers);
+
+    /*
+    3.删除最后元素
+    - pop():返回删除的元素
+    */
+    console.log(numbers.pop());
+    /*
+    4.删除第一个元素
+    - 通过移动后面的元素覆盖前面的元素删除
+    - shift():删除第一个元素并且返回
+    */
+    for (var i = 0; i < numbers.length; i++) {
+      numbers[i] = numbers[i + 1];
+    }
+    console.log(numbers);
+    console.log(numbers.shift());
+    /*
+    5.删除指定位置的元素
+    - splice(index,n,element1,element2,...)
+      - index:删除的索引起始位置
+      - n:删除的元素的个数,0为不删除,直接插入元素
+      - element:删除之后的替代元素
+      - 直接修改数组
+    */
+    numbers.splice(5, 3, 'a', 'c');
+    console.log(numbers);
+
+
+
+
+  </script>
+</body>
+
+</html>

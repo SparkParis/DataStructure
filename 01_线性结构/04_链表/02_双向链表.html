@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 创建双向链表对象
+    function DoubleLinkList() {
+      // 创建节点构造函数
+      function Node(data) {
+        this.pre = null;
+        this.data = data;
+        this.next = null;
+      }
+      // 定义属性
+      this.length = 0;
+      this.head = null;
+      this.tail = null;
+      // 定义相关的操作方法
+      // 1.在表尾追加元素append()
+      DoubleLinkList.prototype.append = function (data) {
+        // (1)创建元素节点
+        var node = new Node(data);
+        // 判断列表是否为空
+        if (this.head == null) {
+          this.head = node;
+          this.tail = node;
+        } else {
+          // 连接末尾元素
+          this.tail.next = node;
+          node.pre = this.tail;
+          this.tail = node;//移动tail值
+        }
+        // 修改length
+        this.length++;
+      }
+      // 2.insert()在任意的位置插入元素
+      DoubleLinkList.prototype.insert = function (position, data) {
+        // 越界 
+        if (position > this.length || position < 0) {
+          return false;
+        }
+        // 创建节点
+        var newNode = new Node(data);
+        // 查找位置
+        if (position == 0) {
+          // 在第一个位置插入元素
+          // 判断链表是否为空
+          if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+          } else {
+            this.head.pre = newNode;
+            newNode.next = this.head;
+            this.head = newNode;
+
+          }
+        } else if (position == this.length) {
+          // 插入到末尾
+          this.tail.next = newNode;
+          newNode.pre = this.tail;
+          this.tail = newNode;
+        } else {
+          // 中间的位置
+          var index = 0;
+          var current = this.head;
+          var previous = null;
+          //查找插入的位置
+          while (index++ < position) {
+            previous = current;
+            current = current.next;
+          }
+          // 交换节点的执行顺序
+          newNode.next = current;
+          newNode.pre = previous;
+          current.pre = newNode;
+          previous.next = newNode;
+        }
+        // 修改length
+        this.length++;
+        return true;
+      }
+      // 3.toString()
+      DoubleLinkList.prototype.toString = function () {
+        return this.backwardString();
+      }
+      // 4.backwardString()从前往后输出
+      DoubleLinkList.prototype.backwardString = function () {
+        var current = this.head;
+        var str = '';
+        while (current) {
+          str += current.data + ' ';
+          current = current.next;
+        }
+        return str;
+      }
+      // 5.forwardString()从后往前输出
+      DoubleLinkList.prototype.forwardString = function () {
+        var current = this.tail;
+        var str = '';
+        while (current) {
+          str += current.data + ' ';
+          current = current.pre;
+        }
+        return str;
+      }
+      // 6.get(position)获取指定位置的元素
+      DoubleLinkList.prototype.get = function (position) {
+        // 越界
+        if (position > this.length || position < 0) {
+          return null;
+        }
+        // 获取位置
+        // 如果length/2>position从前往后遍历.反之从前往后遍历
+        if (this.length / 2 > position) {
+          var current = this.head;
+          var index = 0;
+          while (index++ < position) {
+            current = current.next;
+          }
+          return current.data;
+        } else {
+          var current = this.tail;
+          var index = 0;
+          while (index++ < position) {
+            current = current.pre;
+          }
+          return current.data;
+        }
+      }
+      // 7.indexOf(data)
+      DoubleLinkList.prototype.indexOf = function (data) {
+        var current = this.head;
+        var index = 0;
+        while (current) {
+          if (current.data == data) {
+            return index;
+          }
+          current = current.next;
+          index++;
+        }
+        // 没有找到则返回-1
+        return -1;
+      }
+      // 8.update()
+      DoubleLinkList.prototype.update = function (position, newdata) {
+        if (position > this.length || position < 0) {
+          return false;
+        }
+        // 获取位置
+        // 如果length/2>position从前往后遍历.反之从前往后遍历
+        if (this.length / 2 > position) {
+          var current = this.head;
+          var index = 0;
+          while (index++ < position) {
+            current = current.next;
+          }
+          current.data = newdata;
+          return true;
+        } else {
+          var current = this.tail;
+          var index = 0;
+          while (index++ < position) {
+            current = current.pre;
+          }
+          current.data = newdata
+          return true;
+        }
+      }
+
+
+      // 9.removeAt(position)根据位置删除对应的元素
+      DoubleLinkList.prototype.removeAt = function (position) {
+        // 越界
+        if (position < 0 || position >= this.length) {
+          return null;
+        }
+        // 判断移出的位置
+        var current = this.head;
+        // (1)是不是只有一个节点
+        if (this.length === 1) {
+          this.head = null;
+          this.tail = null;
+          current = this.tail;
+
+        } else {
+          // 删除的是第一个位置
+          if (position == 0) {
+            current = this.head;
+            this.head.next.pre = null;
+            this.head = this.head.next;
+          } else if (position == this.length - 1) {
+            // 删除最后节点
+            current = this.tail;
+            this.tail.pre.next = null;
+            this.tail = this.tail.pre;
+          } else {
+            // 删除中间节点
+            var index = 0;
+            while (index++ < position) {
+              current = current.next;
+
+            }
+            current.next.pre = current.pre;
+            current.pre.next = current.next;
+          }
+
+        }
+        // 修改length
+        this.length--;
+        return current.data;
+      }
+      // 10.remove(data)
+      DoubleLinkList.prototype.remove = function (data) {
+        var index = this.indexOf(data);
+        return this.removeAt(index);
+      }
+      // 11.isEmpty()
+      DoubleLinkList.prototype.isEmpty = function () {
+        return this.length == 0;
+
+      }
+      // 12.size()
+      DoubleLinkList.prototype.size = function () {
+        return this.length;
+      }
+      // 13.getHead()
+      DoubleLinkList.prototype.getHead = function () {
+        return this.head.data;
+      }
+      // 14.getTail()
+      DoubleLinkList.prototype.getTail = function () {
+        return this.tail.data
+      }
+    }
+
+    // 测试
+    var dlist = new DoubleLinkList();
+    dlist.append('aa');
+    dlist.append('bb');
+    dlist.append('cc');
+    dlist.append('dd');
+    dlist.append('ee');
+    console.log(dlist)
+    dlist.insert(2, '333');
+
+    // console.log(dlist.backwardString())
+    // console.log(dlist.forwardString())
+    // console.log(dlist.get(3));
+
+    // console.log(dlist.indexOf('dd'));
+    // console.log(dlist.indexOf('333'));
+    // dlist.update(2, '555');
+    // dlist.update(4, '66');
+
+    // console.log(dlist.toString())
+    // console.log(dlist.removeAt(4))
+    // console.log(dlist.removeAt(2))
+    // console.log(dlist.toString())
+    dlist.remove('cc');
+    dlist.remove('ee');
+    console.log(dlist.toString())
+    console.log(dlist.isEmpty())
+    console.log(dlist.size());
+    console.log(dlist.getHead());
+    console.log(dlist.getTail());
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 添加键值对
+    function add(key, value) {
+      this.datastore[key] = value;
+    }
+    // 显示字典中的键值
+    function show() {
+      for (var key in this.datastore) {
+        console.log(key + ":" + this.datastore[key]);
+      }
+    }
+    // 根据key查找对应的值
+    function find(key) {
+      return this.datastore[key];
+    }
+    // 根据key删除对应的值
+    function remove(key) {
+      delete this.datastore[key];
+    }
+    // 计算字典中的字数
+    function count() {
+      var n = 0;
+      for (var key in Object.keys(this.datastore)) {
+        ++n;
+      }
+      return n;
+    }
+    // 字典按照键排序，并输出排序后的结果
+    function kSort() {
+      var dict = this.datastore;
+      var res = Object.keys(dict).sort();
+      for (var key in res) {
+        console.log(res[key] + ":" + dict[res[key]]);
+      }
+    }
+    // 字典按照值排序，并输出排序后的结果
+    function vSort() {
+      var dict = this.datastore;
+      var res = Object.keys(dict).sort(function (a, b) {
+        return dict[a] - dict[b];
+      });
+      for (var key in res) {
+        console.log(res[key] + ":" + dict[res[key]]);
+      }
+    }
+    // 清空字典内存
+    function clear() {
+      for (var key in this.datastore) {
+        delete this.datastore[key];
+      }
+    }
+    function Dict() {
+      // 定义数组，保存字典元素
+      this.datastore = new Array();
+      // 定义方法
+      this.add = add;//添加字典中的键值内容
+      this.show = show;//显示字典中的键值
+      this.find = find;//按key查找元素并进行返回
+      this.remove = remove;//删掉相对应的键值
+      this.count = count;//计算字典中的元素个数
+      this.kSsort = kSort;//按key排序
+      this.vSort = vSort;//按value排序
+      this.clear = clear;//清空字典
+    }
+    // 创建实例
+    var dict = new Dict();
+    dict.add('aaa', '4')
+    dict.add('bbb', '5')
+    dict.add('ccc', '2')
+    dict.add('eee', '3')
+    dict.add('fff', '12')
+    dict.add('ggg', '11')
+    dict.add('ddd', '9')
+    dict.show();
+    console.log(dict.find('aaa'));
+    dict.remove('eee');
+    dict.show();
+    console.log(dict.count());
+    dict.kSsort();
+    console.log('----')
+    dict.vSort();
+    console.log('----')
+    dict.clear();
+    dict.show();
+  </script>
+</body>
+
+</html>

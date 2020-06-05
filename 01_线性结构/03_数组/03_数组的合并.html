@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+    1.数组的合并
+    - concat(arrayX,arrayX,......,arrayX):连接两个或者多个数组,并返回结果数组
+    - "+":返回的是字符串,实际是字符串的拼接
+    */
+    var num1 = [1, 2, 3];
+    var num2 = [3, 4, 5];
+    var newnum = num2.concat(num1);
+    console.log(newnum);
+    // 字符串的拼接
+    console.log(num1 + num2)
+    console.log(typeof (num1 + num2));
+    /*
+    2.在所有的数组后拼接指定字符串
+    - map():对数组中的每个元素调用匿名函数中的方法并返回一个新的数组,不会改变原数组
+    - filter()过滤符合条件的,返回一个新的数组,不会改变原数组
+    - some()查找数组中是否有满足条件的,返回true,false
+    - every():判断数组中的元素是否满足条件,所有的都满足才会返回true,some还要有一个满足就会返回true
+    - stringObject.indexOf(searchvalue,fromindex):可返回某个指定的字符串值在字符串中首次出现的位置。
+      - searchvalue:查找的值
+      - fromindex:开始检索的位置
+    */
+    var names = ["abc", "cb", "mba", "dna"];
+    var newNames = names.map(function (t) {
+      return t + '-abc';
+    })
+    console.log(newNames);
+    // 获取包含a的字符
+    var newNames1 = names.filter(function (t) {
+      return t.indexOf('a') != -1;
+    })
+    console.log(newNames1);
+    names.forEach(element => {
+      console.log(element)
+    });
+    // 判断数组中是否都含有a元素,全部含有返回true
+    var flag = names.every(function (value) {
+      return value.indexOf('a') != -1;
+    })
+    console.log(flag)
+    // 判断是否含有a,只要有一个满足则返回true
+    var flags = names.some(function (value) {
+      return value.indexOf('a') != -1;
+    })
+    console.log(flags);
+
+
+
+
+  </script>
+</body>
+
+</html>

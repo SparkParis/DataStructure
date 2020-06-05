@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 创建哈希函数
+    /*
+    将字符串映射到大的数字,较大的数字压缩到数组范围
+    - str:字符串
+    - size:数组大小:取质数
+    */
+    function hashFunc(str, size) {
+      //1. 初始化hashCode
+      hashCode = 0;
+      // 霍纳法则计算hashCode
+      for (var i = 0; i < str.length; i++) {
+        // 这里的37就是秦九韶算法中的x,一般取质数
+        hashCode = 37 * hashCode + str.charCodeAt(i);//charCodeAt()获取字符编码值
+      }
+      // 取模运算
+      hashCode = hashCode % size;
+      return hashCode;
+    }
+    // 测试
+    console.log(hashFunc('abs', 7));
+    console.log(hashFunc('ads', 7));
+    console.log(hashFunc('ebs', 7));
+    console.log(hashFunc('ats', 7));
+
+  </script>
+</body>
+
+</html>

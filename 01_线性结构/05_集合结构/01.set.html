@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function Set() {
+      // 封装属性,这里采用对象的方式来存储集合的元素
+      this.items = {};
+      // 集合方法
+      // has(value)是否含有key
+      Set.prototype.has = function (key) {
+        return this.items.hasOwnProperty(key)
+      }
+      // 添加元素
+      Set.prototype.add = function (value) {
+        // 判断是否含有
+        if (this.has(value)) {
+          return false;
+        }
+        //添加,键值对的形式
+        this.items[value] = value;
+        return true;
+      }
+      // 删除
+      Set.prototype.remove = function (value) {
+        if (!this.has(value)) {
+          return false;
+        }
+        delete this.items[value];
+        return true;
+      }
+      // 清空clear
+      Set.prototype.clear = function () {
+        this.items = {}
+      }
+      // size,Object.keys()返回的是一个含有键名的数组
+      Set.prototype.size = function () {
+        return Object.keys(this.items).length;
+        // 考虑兼容性使用一下代码
+        var count = 0;
+        for (var value in this.items) {
+          if (this.items.hasOwnProperty(value)) {
+            count++;
+          }
+        }
+        return count;
+      }
+      // 获取集合中所有的值
+      Set.prototype.values = function () {
+        return Object.values(this.items);
+        // 考虑兼容性
+        // var keys = []
+        // for (var value in this.items) {
+        //   keys.push(value)
+        // }
+        // return keys
+      }
+      // 交集操作unionSet(setB)
+      Set.prototype.unionSet = function (SetB) {
+        // 声明一个set将a中的元素放在新的set
+        var set = new Set();
+        var values1 = this.values();
+        values1.forEach(value => {
+          set.add(value);
+        });
+        var values2 = SetB.values();
+        values2.forEach(value => {
+          set.add(value);
+        });
+        return set;
+      }
+      // 交集intersectionSet()
+      Set.prototype.intersectionSet = function (otherSet) {
+        var interSet = new Set();
+        var values = this.values();
+        values.forEach(value => {
+          if (otherSet.has(value)) {
+            interSet.add(value);
+          }
+        });
+        return interSet;
+      }
+      // 差集
+      Set.prototype.differenceSet = function (otherSet) {
+        var diffSet = new Set();
+        var values = this.values();
+        values.forEach(value => {
+          if (!otherSet.has(value)) {
+            diffSet.add(value);
+          }
+        });
+        return diffSet;
+      }
+      // 子集
+      Set.prototype.subSet = function (otherSet) {
+        // otherset是不是this的子集
+        var values = this.values();
+        // for (var i = 0; i < values.length; i++) {
+        //   if (!otherSet.has(values[i])) {
+        //     return false;
+        //   }
+        // }
+        // return true
+        try {
+
+          values.forEach(value => {
+            if (!otherSet.has(values[i])) {
+              throw new Error();//主动抛出错误跳出循环
+            }
+
+          });
+        } catch (error) {
+          //抛出错误执行语句
+          return false;
+        }
+      }
+
+    }
+    // 测试
+    var set = new Set();
+
+    set.add('abc');
+    set.add('abc');
+    set.add('ccc');
+    set.add('ddd');
+    set.add('sss');
+    console.log(set);
+
+    console.log(set.remove('sss'));
+    console.log(set.remove('sss'));
+    console.log(set)
+    console.log(set.has('aaa'));
+    console.log(set.size());
+    // set.clear();
+    console.log(set.size());
+    console.log(set.values())
+
+    console.log('set测试');
+    var set1 = new Set();
+    set1.add('aaa');
+    set1.add('ddd');
+    set1.add('ccc');
+    set1.add('bbb');
+    var set2 = new Set();
+    set2.add('aaa');
+    set2.add('yya');
+    set2.add('ata');
+    set2.add('aea');
+    set2.add('ee');
+    // var set3 = set1.unionSet(set2);
+    // var set3 = set1.intersectionSet(set2);
+    // var set3 = set1.differenceSet(set2);
+    console.log(set1);
+    console.log(set2);
+    // console.log(set3);
+    var set4 = new Set();
+    set4.add('aaa');
+    set4.add('s');
+    console.log('subSet测试')
+    console.log(set1.subSet(set4));
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./dict.js"></script>
+  <script src="./queue.js"></script>
+</head>
+
+<body>
+  <script>
+    function Graph() {
+      // 封装属性
+      this.vertexes = [];//顶点集合
+      this.adjList = new Dictionay();//通过字典来存储边
+
+      // 方法
+      // 1.添加顶点
+      Graph.prototype.addVertex = function (v) {
+        this.vertexes.push(v);
+        // 添加边的顶点列表为一个空的数组
+        this.adjList.set(v, []);
+      }
+      // 2.添加边
+      Graph.prototype.addEdge = function (v1, v2) {
+        // 这是是无向图的实现
+        this.adjList.get(v1).push(v2);
+        this.adjList.get(v2).push(v1);
+      }
+      // 3.toString方法
+      /*
+      先获取所有的节点,在把节点中的顶点列表打印出来
+      */
+      Graph.prototype.toString = function () {
+        var resultStr = ""
+        for (var i = 0; i < this.vertexes.length; i++) {
+          resultStr += this.vertexes[i] + "->"
+          var adj = this.adjList.get(this.vertexes[i])
+          for (var j = 0; j < adj.length; j++) {
+            resultStr += adj[j] + " "
+          }
+          resultStr += "\n"
+        }
+        return resultStr
+      }
+      // 4.初始化颜色用于判断当前节点是否被访问
+      Graph.prototype.initializeColor = function () {
+        /*
+        白色:未被访问
+        灰色:已经探索未被访问
+        黑色:已经访问
+        */
+        var colors = [];
+        for (var i = 0; i < this.vertexes.length; i++) {
+          colors[this.vertexes[i]] = 'white';
+        }
+        return colors;
+      }
+      // 4.BFS搜索遍历的实现
+      /*
+      v:访问的初始节点
+      callback:回调函数,处理节点
+      */
+      Graph.prototype.BFS = function (v, callback) {
+        // (1)初始化顶点
+        var colors = this.initializeColor();
+        // (2)创建队列
+        var queue = new Queue();
+        // (3)将传入的初始节点放入队列中
+        queue.enqueue(v);
+        // (4)从队列依次取出和放入数据
+        while (!queue.isEmpty()) {
+          // 从队列中取出数据
+          var qv = queue.dequeue();
+          // 获取qv相邻的所有顶点
+          var vAdj = this.adjList.get(qv);
+          // 将qv的颜色设置为灰色
+          colors[qv] = 'gray';
+          // 将qv的所有领接顶点放入队列
+          for (var i = 0; i < vAdj.length; i++) {
+            var e = vAdj[i];
+            if (colors[e] == 'white') {
+              colors[e] = 'gray';
+              queue.enqueue(e);
+            }
+          }
+          // qv探测完毕,设置为黑色
+          colors[qv] = 'black';
+          // 处理qv
+          if (callback) {
+            callback(qv);
+          }
+        }
+      }
+      // 5.DFS
+      /*
+      */
+      Graph.prototype.DFS = function (v, callback) {
+        //  初始化节点颜色
+        var colors = this.initializeColor();
+        // 遍历所有节点进行访问
+        for (var i = 0; i < this.vertexes.length; i++) {
+          if (colors[this.vertexes[i]] == 'white') {
+            // 递归调用
+            this.dfsVisit(this.vertexes[i], colors, callback);
+          }
+        }
+
+      }
+      //dfs递归调用方法
+      Graph.prototype.dfsVisit = function (u, color, callback) {
+        // 当前访问的顶点变为灰色
+        color[u] = 'gray';
+        // 处理u顶点
+        if (callback) {
+          callback(u);
+        }
+        // u所有邻接顶点的访问
+        var uAdj = this.adjList.get(u);
+        for (var i = 0; i < uAdj.length; i++) {
+          var w = uAdj[i];
+          if (color[w] == 'white') {
+            this.dfsVisit(w, color, callback);
+          }
+        }
+        // 当前节点设置为黑色
+        color[u] = 'black';
+      }
+
+    }
+    // 测试代码
+    var graph = new Graph();
+    var vertex = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+    for (var i = 0; i < vertex.length; i++) {
+      graph.addVertex(vertex[i]);
+    }
+    // 添加边
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('A', 'D');
+    graph.addEdge('C', 'D');
+    graph.addEdge('C', 'G');
+    graph.addEdge('D', 'G');
+    graph.addEdge('D', 'H');
+    graph.addEdge('B', 'E');
+    graph.addEdge('B', 'F');
+    graph.addEdge('E', 'I');
+
+    // graph的toString
+    console.log(graph)
+    var result = graph.toString()
+    console.log(result);
+
+    // 测试BFS
+    var str = '';
+    graph.BFS(vertex[0], function (v) {
+      str += v + ' ';
+    });
+    console.log(str);
+
+    // dfs测试
+    var str = '';
+    graph.DFS(vertex[0], function (v) {
+      str += v + ' ';
+    })
+    console.log(str);
+
+
+  </script>
+</body>
+
+</html>

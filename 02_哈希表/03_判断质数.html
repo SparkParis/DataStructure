@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 效率不高
+    function isPrime(number) {
+      for (var i = 2; i < number; i++) {
+        if (number % i == 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    // 采用平方根的方式
+    function isPrime(number) {
+      for (var i = 2; i < parseInt(Math.sqrt(number)); i++) {
+        if (number % i == 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    alert(isPrime(22))
+    alert(isPrime(2))
+    alert(isPrime(23))
+    alert(isPrime(24))
+  </script>
+</body>
+
+</html>

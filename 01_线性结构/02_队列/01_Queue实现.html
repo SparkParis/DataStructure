@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  定义队列
+    function Queue() {
+      // 定义属性
+      this.items = [];
+      // 定义方法
+      Queue.prototype.enqueue = function (ele) {
+        // 从队尾插入元素
+        this.items.push(ele);
+      }
+      // 删除头元素
+      Queue.prototype.dequeue = function () {
+        return this.items.shift();
+      }
+      // 查看队头元素
+      Queue.prototype.front = function () {
+        return this.items[0];
+      }
+      // 是否为空
+      Queue.prototype.isEmpty = function () {
+        return this.items.length == 0;
+      }
+      // 返回队列包含的元素个数
+      Queue.prototype.size = function () {
+        return this.items.length;
+      }
+      // toString()方法
+      Queue.prototype.toString = function () {
+        var str = '';
+        for (var i = 0; i < this.items.length; i++) {
+          str += this.items[i] + ' ';
+        }
+        return str;
+      }
+    }
+
+    // 击鼓传花
+    /*
+    namelist:人员列表加入到队列中
+    num:淘汰的数字
+    */
+    function passGame(namelist, num) {
+      var queue = new Queue();
+      // 将人员列表加入到队列中
+      for (var i = 0; i < namelist.length; i++) {
+        queue.enqueue(namelist[i]);
+      }
+
+      // 开始数数
+      while (queue.size() > 1) {
+        // 数到1-(num-1)的人删除后加入到队列末尾
+        for (var i = 0; i < num - 1; i++) {
+          queue.enqueue(queue.dequeue());
+        }
+        // 数到num的人是删除
+        queue.dequeue();
+
+      }
+      // 获取剩余的人
+      console.log(queue.size());
+      var name = queue.dequeue();
+      var nameindex = namelist.indexOf(name);
+      // 获取对应的数字序列号
+      return nameindex;
+    }
+
+    var list = ['a', 'b', 'c', 'd', 'e']
+    passGame(list, 5)
+
+
+
+    // var queue = new Queue();
+    // queue.enqueue('as');
+    // queue.enqueue('ae');
+    // queue.enqueue('e');
+    // queue.enqueue('r');
+    // console.log(queue.toString());
+    // queue.dequeue();
+    // console.log(queue.toString());
+    // console.log(queue.isEmpty());
+    // console.log(queue.size());
+    // console.log(queue.front());
+
+
+  </script>
+</body>
+
+</html>
